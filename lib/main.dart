@@ -62,12 +62,17 @@ class MyHomePage extends StatelessWidget {
             const SizedBox(height: 25),
             ElevatedButton(
               onPressed: () {
-                BlocProvider.of<MovieBloc>(context)
-                    .add(SerchMevieEvent(name: controller.text));
+                BlocProvider.of<MovieBloc>(context).add(
+                  SerchMevieEvent(
+                    name: controller.text,
+                  ),
+                );
               },
               child: const Icon(Icons.search),
             ),
             const SizedBox(height: 20),
+            // BlocBuilder отрисовка
+            //              отправлеяет
             BlocBuilder<MovieBloc, MovieState>(
               builder: (context, state) {
                 if (state is MovieLoading) {
@@ -82,7 +87,8 @@ class MyHomePage extends StatelessWidget {
                       shrinkWrap: true,
                       itemCount: state.model.search?.length ?? 0,
                       itemBuilder: (context, index) => Image.network(
-                          state.model.search?[index].poster ?? ''),
+                        state.model.search?[index].poster ?? '',
+                      ),
                     ),
                   );
                 }
