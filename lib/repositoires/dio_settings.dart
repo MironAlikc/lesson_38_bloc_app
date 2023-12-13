@@ -1,38 +1,37 @@
-import "dart:async";
-import "package:dio/dio.dart";
-import "package:flutter/foundation.dart";
+// Базовые настройки необходимы чтобы Dio правельно функционировал
+import 'package:dio/dio.dart';
+import 'package:flutter/foundation.dart';
 
 class DioSettings {
   DioSettings() {
-    unawaited(setup());
+    setup();
   }
 
   Dio dio = Dio(
     BaseOptions(
-      baseUrl: "https://api.mindbodyonline.com/public/v6/",
-      contentType: "application/json",
-      headers: {
-        "Content-Type": "application/json",
-        "SiteId": -99,
-        // "Api-Key": AppConsts.apiKey,
-      },
-      connectTimeout: const Duration(seconds: 40),
-      receiveTimeout: const Duration(seconds: 40),
+      baseUrl: 'https://dog.ceo/api/breeds/image/random/',
+      contentType: 'application/json',
+      headers: {'Accept': 'application/json'},
+      connectTimeout: const Duration(seconds: 20),
+      receiveTimeout: const Duration(seconds: 20),
     ),
   );
 
-  Future<void> setup() async {
+  void setup() async {
     final interceptors = dio.interceptors;
 
     interceptors.cast();
 
     final logInterceptor = LogInterceptor(
+      request: true,
       requestBody: true,
+      requestHeader: true,
       responseBody: true,
+      responseHeader: true,
     );
     final headerInterceptors = QueuedInterceptorsWrapper(
       onRequest: (options, handler) => handler.next(options),
-      onError: (DioException error, handler) {
+      onError: (DioError error, handler) {
         handler.next(error);
       },
       onResponse: (response, handler) {
