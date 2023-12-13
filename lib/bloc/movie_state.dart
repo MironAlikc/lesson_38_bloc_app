@@ -7,8 +7,7 @@ class MovieInitial extends MovieState {}
 
 class MovieLoading extends MovieState {} //загрузка
 
-class MovieSucces extends MovieState {
-  //успех
+class MovieSucces extends MovieState {  //успех ответ 
 
   final MovieListModel model;
   MovieSucces({required this.model});

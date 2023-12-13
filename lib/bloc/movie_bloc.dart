@@ -10,6 +10,7 @@ class MovieBloc extends Bloc<MovieEvent, MovieState> {
   MovieBloc({required this.repo}) : super(MovieInitial()) {
     on<SerchMevieEvent>(
       (event, emit) async {
+      // отправить запрос
         emit(MovieLoading());
         try {
           final model = await repo.getData(event.name);
